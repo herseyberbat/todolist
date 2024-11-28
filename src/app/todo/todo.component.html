@@ -1,0 +1,141 @@
+<!-- Görev Listesi Başlığı -->
+<h2 class="task-list-header">Görev Listesi</h2>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Görevler Listesi -->
+<div class="container">
+  <ul class="task-list">
+    <li *ngFor="let task of filteredTasks" [class.completed]="task.status === 'Completed'" class="task-item">
+      <div class="task-header">
+        <h3 class="task-title">{{ task.title }}</h3>
+        <div class="task-buttons">
+          <button pButton type="button" class="toggle-status-btn" (click)="toggleStatus(task)">
+            {{ task.status === 'Pending' ? 'Tamamla' : 'Geri Al' }}
+          </button>
+          <button pButton type="button" class="delete-btn" (click)="confirmDeleteTask(task)">Sil</button>
+        </div>
+      </div>
+      <p class="task-description">{{ task.description }}</p>
+      <div class="task-meta">
+        <span>Başlangıç: {{ task.createdDate | date: 'short' }}</span>
+        <span *ngIf="task.dueDate"> | Bitiş: {{ task.dueDate | date: 'short' }}</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Dropdown Menü -->
+<p-dropdown 
+  [options]="dropdownOptions" 
+  [(ngModel)]="selectedOption" 
+  placeholder="☰" 
+  appendTo="body" 
+  class="dropbtn"
+>
+  <!-- Her zaman başlık olarak "☰" göster -->
+  <ng-template pTemplate="selectedItem">
+    ☰
+  </ng-template>
+
+  <!-- Menü öğelerini listele -->
+  <ng-template let-item pTemplate="item">
+    <div *ngIf="item.label === 'Görev Ekle'" class="ui-dropdown-item">
+      <button type="button" (click)="isPopupVisible = true">Görev Ekle</button>
+    </div>
+    <div *ngIf="item.label === 'Filtrele'" class="ui-dropdown-item">
+      <button type="button" (click)="isFilterPopupVisible = true">Filtrele</button>
+    </div>
+  </ng-template>
+</p-dropdown>
+
+
+<!-- Görev Ekleme Popup -->
+<p-dialog [(visible)]="isPopupVisible" 
+          [modal]="true" 
+          [closable]="false" 
+          [style]="{ width: '50vw', padding: '30px', fontSize: '16px', fontWeight: '500', fontFamily: 'Arial, sans-serif', background: 'white', border: '2px solid #3498db', borderRadius: '10px' }">
+  
+  <h2 class="dialog-header">Yeni Görev Ekle</h2>
+
+  <form (ngSubmit)="addTask()">
+    <div class="form-group">
+      <label for="title">Başlık</label>
+      <input pInputText type="text" id="title" [(ngModel)]="newTask.title" name="title" required>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Açıklama</label>
+      <textarea pInputTextarea id="description" [(ngModel)]="newTask.description" name="description" required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="dueDate">Bitiş Tarihi</label>
+      <input pInputText type="date" id="dueDate" [(ngModel)]="newTask.dueDate" name="dueDate" required>
+    </div>
+
+    <p-footer>
+      <button pButton type="button" (click)="addTask()" label="Görev Ekle" class="submit-button"></button>
+      <button pButton type="button" (click)="isPopupVisible=false" label="Vazgeç" class="submit-button"></button>
+    </p-footer>
+  </form>
+</p-dialog>
+
+
+<!-- Filtreleme Popup -->
+<p-dialog [(visible)]="isFilterPopupVisible" 
+[modal]="true" 
+[closable]="false" 
+[style]="{ width: '50vw', 
+          padding: '30px', 
+          fontSize: '15px', 
+          fontWeight: '500', 
+          fontFamily: 'Arial, sans-serif', 
+          background: 'white', 
+          border: '2px solid #007bff', 
+          borderRadius: '10px' }">
+          <p-footer>
+
+<h2 style="font-size: 18px; font-weight: bold; color: #333;">Filtreleme</h2>
+
+  <button pButton type="button" (click)="filterTasks('completed')" label="Tamamlanan Görevleri Göster" class="filterbuttons"></button>
+  <button pButton type="button" (click)="filterTasks('all')" label="Tüm Görevleri Göster" class="filterbuttons"></button>
+  <h3>Sıralama</h3>
+  <button pButton type="button" (click)="sortTasksByDate('earliest')" label="En Erken Tarihe Göre Sırala" class="filterbuttons"></button>
+  <button pButton type="button" (click)="sortTasksByDate('latest')" label="En Geç Tarihe Göre Sırala" class="filterbuttons"></button>
+  
+    <button pButton type="button" (click)="isFilterPopupVisible = false" label="Vazgeç" class="filterbuttons"></button>
+  </p-footer>
+</p-dialog>
+
+<!-- Silme Onayı Popup -->
+<p-dialog [(visible)]="deletePopupVisible" 
+          [modal]="true" 
+          [closable]="false" 
+          [style]="{ 
+            width: '50vw',  
+            padding: '30px',  
+            fontSize: '15px',  
+            fontWeight: '500',  
+            fontFamily: 'cursive',  
+            background: 'white',  
+            border: '2px solid black',  
+            borderRadius: '25px' 
+          }" 
+          class="custom-delete-dialog">
+  
+  <h3>Silmek istediğinizden emin misiniz?</h3>
+  
+  <p-footer class="deletefooter">
+    <button pButton 
+            type="button" 
+            (click)="deleteTask()" 
+            label="Sil"
+            class="delete-button"></button>
+
+    <button pButton 
+            type="button" 
+            (click)="closeDeletePopup()" 
+            label="Vazgeç"
+            class="cancel-button"></button>
+  </p-footer>
+</p-dialog>

@@ -1,0 +1,650 @@
+/* Tüm sayfa için yeni font ayarı */
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  h2, h3 {
+    font-weight: 600;
+    color: #333; /* Daha şık bir gri tonu */
+  }
+  
+  button {
+    font-weight: 500;
+  }
+  
+  /* Genel stiller */
+  .container {
+    border-radius: 8px; /* Köşeleri yuvarlak yapalım */
+    padding: 20px;
+  }
+  
+  .task-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .task-item {
+    background-color: #ffffff; /* Görev kartı beyaz kalsın */
+    border-radius: 6px;
+    margin-bottom: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .task-item:hover {
+    transform: scale(1.02); /* Hafif büyüme efekti */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Daha belirgin gölge */
+  }
+  
+  .task-item.completed {
+    background-color: #e7f9ed; /* Pastel yeşil */
+    color: #2e7d32; /* Uyumlu bir koyu yeşil yazı rengi */
+  }
+  
+  .task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .task-list-header {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .task-title {
+    margin: 0;
+    font-size: 1.2em;
+  }
+  
+  .task-description {
+    margin: 10px 0;
+  }
+  
+  .task-meta {
+    font-size: 0.85em;
+    color: #777;
+  }
+  
+  .task-buttons button {
+    margin-left: 10px;
+  }
+  
+  .toggle-status-btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .delete-popup {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 300px;
+    margin: auto;
+  }
+  
+  .delete-popup button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    margin: 10px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .delete-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .delete-popup button {
+    background-color: red;
+    color: white;
+  }
+  
+  /* Vazgeç butonu */
+  .delete-popup button:last-child {
+    background-color: #e0e0e0;
+    color: black;
+  }
+  
+  .delete-btn:hover,
+  .toggle-status-btn:hover {
+    opacity: 0.8;
+  }
+  
+  /* Popup stilleri */
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .popup-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .popup-container h2 {
+    margin-top: 0;
+  }
+  
+  .popup-container .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .popup-container input,
+  .popup-container textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .popup-container button {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .popup-container button:last-child {
+    margin-bottom: 0;
+  }
+  
+  .popup-container button:hover {
+    opacity: 0.8;
+  }
+  
+  /* Silme Onayı Popup */
+  .delete-popup {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 100%;
+  }
+  
+  .delete-popup button {
+    padding: 8px 15px;
+    margin-top: 10px;
+    border-radius: 4px;
+  }
+  
+  .delete-popup .delete-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+  }
+  
+  .delete-popup .cancel-btn {
+    background-color: #ccc;
+    color: white;
+    border: none;
+  }
+  
+  .delete-popup .cancel-btn:hover {
+    background-color: #999;
+  }
+  
+  .delete-popup .delete-btn:hover {
+    background-color: #e53935;
+  }
+  
+  /* Dropdown Menü */
+  .dropdown {
+    position: relative;
+    top: 10px; /* Sayfanın üst kısmından 10px mesafe */
+    right: 10px; /* Sayfanın sağ kısmından 10px mesafe */
+    z-index: 10; /* Menünün üstte görünmesini sağlar */
+    display: inline-block;
+  }
+  
+  .dropbtn {
+    position: fixed; /* Fixed position to keep it at the top right even on scroll */
+    top: 10px; /* Distance from the top of the page */
+    right: 10px; /* Distance from the right of the page */
+    z-index: 1000; /* Ensures the dropdown stays on top of other elements */
+  }
+  
+  .dropdown-content {
+    display: none; /* Varsayılan olarak görünmez */
+    position: absolute;
+    top: 100%; /* Butonun hemen altında */
+    right: 0; /* Sağdan hizalı */
+    background-color: #ffffff;
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block; /* Hoverlandığında görünür */
+  }
+  
+  .dropdown-content button {
+    display: block;
+    padding: 8px 16px;
+    text-align: left;
+    border: none;
+    background: none;
+    cursor: pointer;
+    width: 100%; /* Tam genişlik */
+  }
+  
+  .dropdown-content button:hover {
+    background-color: #f0f0f0; /* Hover arka plan rengi */
+  }
+  
+  /* Popup Butonları */
+  .popup-container button {
+    margin-top: 10px; /* Butonlar arasında biraz boşluk */
+    margin-bottom: 10px; /* Butonlar arasında biraz boşluk */
+  }
+  
+  .popup-container button:last-child {
+    margin-bottom: 0; /* Son butonun altındaki boşluğu kaldır */
+  }
+  .p-dropdown-panel {
+    z-index: 2000 !important; /* Make sure the dropdown panel stays above other content */
+    position: absolute !important; /* Ensure it's positioned correctly */
+    top: 100% !important; /* Make sure the dropdown shows below the button */
+    left: 0 !important; /* Align dropdown to the left of the button */
+  }
+  
+  /* Dropdown menüsünün genel stili */
+.p-dropdown {
+    position: relative;
+    z-index: 10;
+  }
+  
+  /* Dropdown menüsü açıldığında arka plan kararması */
+  .p-dropdown-panel {
+    background-color: rgba(0, 0, 0, 0.7);  /* Koyu arka plan */
+    color: white;  /* Yazı rengini beyaz yap */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+  }
+  
+  /* Dropdown alt menüler */
+  .p-dropdown-item {
+    background-color: transparent;  /* Alt menü öğelerinin şeffaf arka planı */
+    color: white;  /* Yazı rengini beyaz yap */
+    padding: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Hover durumunda alt menü öğesi arka planını değiştirme */
+  .p-dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);  /* Hoverda arka plan rengi */
+  }
+  
+  /* Alt menü öğesi seçildiğinde stil */
+  .p-dropdown-item.p-highlight {
+    background-color: rgba(0, 0, 0, 0.5);  /* Seçilen öğenin arka plan rengi */
+  }
+  
+  /* Pop-up'lar için genel stil */
+.p-dialog {
+    position: fixed;
+    z-index: 1050; /* Pop-up'ı üstte tutmak için yüksek z-index */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff; /* Beyaz arka plan */
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  /* Pop-up arka planını karartma */
+  .p-dialog-mask {
+    background-color: rgba(0, 0, 0, 0.6);  /* Arka plan kararması */
+    z-index: 1040; /* Arka planın önünde yer alacak şekilde */
+  }
+  
+  /* Pop-up başlık stili */
+  .p-dialog-header {
+    background-color: #333;  /* Koyu başlık rengi */
+    color: white;
+    font-weight: bold;
+  }
+  
+  /* Pop-up içeriği */
+  .p-dialog-content {
+    color: #333;
+    padding: 20px;
+  }
+  
+  /* Pop-up kapanma butonu */
+  .p-dialog-header-close {
+    color: #fff;
+    background: none;
+    border: none;
+  }
+
+  /* Filtreleme pop-up'ı için stil */
+.p-overlay-panel {
+    background-color: #fff;  /* Beyaz arka plan */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 20px;
+    z-index: 1050;
+  }
+  
+  /* Filtreleme pop-up'ı maskesi (arka planı karartma) */
+  .p-overlay-panel .p-overlay-header {
+    background-color: #333;  /* Koyu başlık rengi */
+    color: white;
+    font-weight: bold;
+  }
+  
+  /* Filtreleme pop-up'ı içeriği */
+  .p-overlay-panel .p-overlay-content {
+    padding: 15px;
+    color: #333;
+  }
+  
+  /* Arka plan karartma */
+  .p-overlay-panel.p-overlay-panel-visible {
+    background-color: rgba(0, 0, 0, 0.6);  /* Koyu arka plan */
+  }
+/* Genel pop-up ve overlay karartma */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);  /* Kararmış arka plan */
+    z-index: 1000;  /* Yüksek z-index ile ön planda tut */
+  }
+  
+  /* Pop-up içerikleri */
+  .popup-content {
+    position: fixed;
+    z-index: 1050;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Pop-up kapanma butonu */
+  .popup-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #333;
+    cursor: pointer;
+  }
+  .p-dropdown {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+  }
+  
+  /* Dropdown alt menü paneli */
+  .p-dropdown-panel {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  
+  /* Dropdown menü öğeleri */
+  .p-dropdown-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  /* Hover durumu */
+  .p-dropdown-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  /* Seçili öğe */
+  .p-dropdown-item.p-highlight {
+    background-color: #007ad9;
+    color: white;
+  }
+
+  /* Dropdown ana butonunun stilini düzenleme */
+.dropbtn {
+  background-color: #007bff; /* Mavi bir arka plan */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px; /* Kenarları yuvarlat */
+  transition: background-color 0.3s ease; /* Hover animasyonu */
+}
+
+
+
+/* Dropdown menü içeriğinin pozisyonunu ve genel stilini ayarlama */
+.ui-dropdown-panel {
+  position: absolute;
+  background-color: white; /* Beyaz arka plan */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hafif bir gölge */
+  border-radius: 5px; /* Kenarları yuvarlat */
+  z-index: 1000; /* Diğer elemanların üstünde görünmesi için */
+  padding: 10px;
+  min-width: 150px; /* Minimum genişlik */
+}
+
+/* Dropdown içindeki her bir öğe */
+.ui-dropdown-item {
+  padding: 10px;
+  color: #333; /* Varsayılan metin rengi */
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Hover animasyonu */
+  background-color: #fff;
+}
+
+.ui-dropdown-item:hover {
+  background-color: #f1f1f1; /* Hover'da açık gri */
+}
+
+/* Dropdown içinde yer alan butonların stilini düzenleme */
+.ui-dropdown-item button {
+  background: none;
+  border: none;
+  color: #007bff; /* Mavi metin rengi */
+  font-size: 14px;
+  cursor: pointer;
+  padding: 5px 10px;
+  transition: color 0.3s ease;
+}
+
+.ui-dropdown-item button:hover {
+  color: #0056b3; /* Hover'da koyu mavi */
+}
+
+/* Mobil uyumluluk için: Ekran küçüldüğünde daha iyi görünüm */
+
+/* Arka plan karartma */
+.custom-delete-dialog .p-dialog-mask {
+  background-color: rgba(0, 0, 0, 0.5); /* Arka plan kararması */
+}
+
+/* Sil Butonu */
+.delete-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Sil Butonu Hover Durumu */
+.delete-button:hover {
+  background-color: #c0392b;
+  color: #ecf0f1;
+  transform: scale(1.05);
+}
+
+/* Vazgeç Butonu */
+.cancel-button {
+  background-color: #bdc3c7;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Vazgeç Butonu Hover Durumu */
+.cancel-button:hover {
+  background-color: #95a5a6;
+  color: white;
+  transform: scale(1.05);
+}
+
+/* Footer Butonlarını Ortalamak için Flexbox Kullanımı */
+.footer {
+  display: flex;
+  justify-content: center; /* Yatayda ortalar */
+  align-items: center; /* Dikeyde ortalar */
+  gap: 10px; /* Butonlar arasında boşluk */
+}
+/* Dialog Başlığı */
+.dialog-header {
+  font-size: 22px;
+  color: #3498db;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Form Alanı Düzenleme */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  font-size: 16px;
+  color: #333;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Submit Butonu */
+.submit-button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #2980b9;
+}
+
+/* Footer Alanı Düzenleme */
+.p-dialog-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+p-footer {
+  display: flex;
+  flex-direction: column; /* Butonları dikey olarak hizalar */
+  align-items: center; /* Butonları ortalar */
+  gap: 15px; /* Butonlar arasında 15px mesafe bırakır */
+}
+
+.filterbuttons
+{
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.filterbuttons.hover
+{
+  background-color: #2980b9;
+}
+.deletefooter{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row; /* Butonları dikey olarak hizalar */
+
+}
+
+::ng-deep .p-dialog-mask {
+  background-color: rgba(0, 0, 0, 0.6) !important; /* %60 opaklık, renk ve opaklık seviyesini değiştirebilirsiniz */
+}
